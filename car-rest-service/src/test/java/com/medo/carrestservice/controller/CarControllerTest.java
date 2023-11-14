@@ -43,7 +43,7 @@ class CarControllerTest {
 
     @Test
     void testCarController_getAllCars_shouldReturnValidResponceEntity() throws Exception {
-        List<Car> expected = List.of(new Car(1, "testNumb1", 2024, null, null), new Car(2, "testNumb2", 2024, null, null));
+        List<Car> expected = List.of(new Car("testNumb1", 2024, null, null), new Car("testNumb2", 2024, null, null));
         when(carService.getAllCars()).thenReturn(expected);
 
         mockMvc.perform(get("/api/v1/cars"))
@@ -52,12 +52,10 @@ class CarControllerTest {
                 content().json("""
                         [
                             {
-                                "id": 1,
                                 "serialNumber": "testNumb1",
                                 "manufacturedYear": 2024
                             },
                             {
-                                "id": 2,
                                 "serialNumber": "testNumb2",
                                 "manufacturedYear": 2024
                             }
@@ -77,7 +75,7 @@ class CarControllerTest {
 
     @Test
     void testCarController_getAllCarsAccordingToBrand_shouldReturnValidResponceEntity() throws Exception {
-        List<Car> expected = List.of(new Car(1, "testNumb1", 2024, null, null));
+        List<Car> expected = List.of(new Car("testNumb1", 2024, null, null));
         when(carService.getAllCarsAccordingToBrand(anyString(), any(Pageable.class))).thenReturn(expected);
 
         mockMvc.perform(get("/api/v1/cars/search/brands?brandName=brandName"))
@@ -86,7 +84,6 @@ class CarControllerTest {
                 content().json("""
                         [
                             {
-                                "id": 1,
                                 "serialNumber": "testNumb1",
                                 "manufacturedYear": 2024
                             }
@@ -106,7 +103,7 @@ class CarControllerTest {
 
     @Test
     void testCarController_getAllByCategoryAndModelNames_shouldReturnValidResponceEntity() throws Exception {
-        List<Car> expected = List.of(new Car(1, "testNumb1", 2024, null, null));
+        List<Car> expected = List.of(new Car("testNumb1", 2024, null, null));
         when(carService.getAllByCategoryAndModelNames(anyString(), anyString(), any(Pageable.class))).thenReturn(expected);
 
         mockMvc.perform(get("/api/v1/cars/search/categorys/models?categoryName=categoryName&modelName=modelName"))
@@ -115,7 +112,6 @@ class CarControllerTest {
                 content().json("""
                         [
                             {
-                                "id": 1,
                                 "serialNumber": "testNumb1",
                                 "manufacturedYear": 2024
                             }
@@ -135,7 +131,7 @@ class CarControllerTest {
 
     @Test
     void testCarController_getAllByModelNameAndMinMaxYear_shouldReturnValidResponceEntity() throws Exception {
-        List<Car> expected = List.of(new Car(1, "testNumb1", 2024, null, null));
+        List<Car> expected = List.of(new Car("testNumb1", 2024, null, null));
         when(carService.getAllByModelNameAndMinMaxYear(anyString(), anyInt(), anyInt(), any(Pageable.class))).thenReturn(expected);
 
         mockMvc.perform(get("/api/v1/cars/search/models/years?modelName=modelName&minYear=1900&maxYear=2024"))
@@ -144,7 +140,6 @@ class CarControllerTest {
                 content().json("""
                         [
                             {
-                                "id": 1,
                                 "serialNumber": "testNumb1",
                                 "manufacturedYear": 2024
                             }
@@ -164,7 +159,7 @@ class CarControllerTest {
 
     @Test
     void testCarController_getCarById_shouldReturnValidResponceEntity() throws Exception {
-        Car car = new Car(3, "testNumb3", 2024, null, null);
+        Car car = new Car("testNumb3", 2024, null, null);
         when(carService.getCarById(anyLong())).thenReturn(car);
 
         mockMvc.perform(get("/api/v1/cars/{id}", anyLong()))
@@ -173,7 +168,6 @@ class CarControllerTest {
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
                             {
-                                "id": 3,
                                 "serialNumber": "testNumb3",
                                 "manufacturedYear": 2024
                             }
@@ -192,7 +186,7 @@ class CarControllerTest {
 
     @Test
     void testCarController_getCarById_shouldCallServiceOnce() {
-        Car car = new Car(3, "testNumb3", 2024, null, null);
+        Car car = new Car("testNumb3", 2024, null, null);
         when(carService.getCarById(anyLong())).thenReturn(car);
 
         carController.getCarById(anyLong());
@@ -217,7 +211,7 @@ class CarControllerTest {
 
     @Test
     void testCarController_createCar_shouldCallServiceOnce() {
-        Car car = new Car(3, "testNumb3", 2024, null, null);
+        Car car = new Car("testNumb3", 2024, null, null);
         carController.saveCar(car);
 
         verify(carService, times(1)).saveCar(car);
@@ -241,7 +235,7 @@ class CarControllerTest {
 
     @Test
     void testCarController_updateCar_shouldCallServiceOnce() {
-        Car car = new Car(3, "testNumb3", 2024, null, null);
+        Car car = new Car("testNumb3", 2024, null, null);
         long id = car.getId();
         carController.updateCar(id, car);
 

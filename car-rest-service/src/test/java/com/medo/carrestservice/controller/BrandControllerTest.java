@@ -40,7 +40,7 @@ class BrandControllerTest {
 
     @Test
     void testBrandController_getAllBrands_shouldReturnValidResponceEntity() throws Exception {
-        List<Brand> expected = List.of(new Brand(1, "testName1"), new Brand(2, "testName2"));
+        List<Brand> expected = List.of(new Brand("testName1"), new Brand("testName2"));
         when(brandService.getAllBrands()).thenReturn(expected);
 
         mockMvc.perform(get("/api/v1/brands"))
@@ -49,11 +49,9 @@ class BrandControllerTest {
                 content().json("""
                         [
                             {
-                                "id":1,
                                 "brandName":"testName1"
                             },
                             {
-                                "id":2,
                                 "brandName":"testName2"
                             }
                         ]
@@ -72,7 +70,7 @@ class BrandControllerTest {
 
     @Test
     void testBrandController_getBrandById_shouldReturnValidResponceEntity() throws Exception {
-        Brand brand = new Brand(3, "testName3");
+        Brand brand = new Brand("testName3");
         when(brandService.getBrandById(anyLong())).thenReturn(brand);
 
         mockMvc.perform(get("/api/v1/brands/{id}", anyLong()))
@@ -81,7 +79,6 @@ class BrandControllerTest {
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
                         {
-                            "id":3,
                             "brandName":"testName3"
                         }
                          """));
@@ -99,7 +96,7 @@ class BrandControllerTest {
 
     @Test
     void testBrandController_getBrandById_shouldCallServiceOnce() {
-        when(brandService.getBrandById(anyLong())).thenReturn(new Brand(3, "testName3"));
+        when(brandService.getBrandById(anyLong())).thenReturn(new Brand("testName3"));
 
         brandController.getBrandById(anyLong());
 
@@ -121,7 +118,7 @@ class BrandControllerTest {
 
     @Test
     void testBrandController_createBrand_shouldCallServiceOnce() {
-        Brand brand = new Brand(3, "testName3");
+        Brand brand = new Brand("testName3");
         brandController.saveBrand(brand);
 
         verify(brandService, times(1)).saveBrand(brand);
@@ -143,7 +140,7 @@ class BrandControllerTest {
 
     @Test
     void testBrandController_updateBrand_shouldCallServiceOnce() {
-        Brand brand = new Brand(3, "testName3");
+        Brand brand = new Brand("testName3");
         long id = brand.getId();
         brandController.updateBrand(id, brand);
 

@@ -40,7 +40,7 @@ class ModelControllerTest {
 
     @Test
     void testModelController_getAllModels_shouldReturnValidResponceEntity() throws Exception {
-        List<Model> expected = List.of(new Model(1, "testName1", null), new Model(2, "testName2", null));
+        List<Model> expected = List.of(new Model("testName1", null), new Model("testName2", null));
         when(modelService.getAllModels()).thenReturn(expected);
 
         mockMvc.perform(get("/api/v1/models"))
@@ -49,11 +49,9 @@ class ModelControllerTest {
                 content().json("""
                         [
                             {
-                                "id":1,
                                 "modelName":"testName1"
                             },
                             {
-                                "id":2,
                                 "modelName":"testName2"
                             }
                         ]
@@ -72,7 +70,7 @@ class ModelControllerTest {
 
     @Test
     void testModelController_getModelById_shouldReturnValidResponceEntity() throws Exception {
-        Model model = new Model(3, "testName3", null);
+        Model model = new Model("testName3", null);
         when(modelService.getModelById(anyLong())).thenReturn(model);
 
         mockMvc.perform(get("/api/v1/models/{id}", anyLong()))
@@ -81,7 +79,6 @@ class ModelControllerTest {
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
                         {
-                            "id":3,
                             "modelName":"testName3"
                         }
                          """));
@@ -99,7 +96,7 @@ class ModelControllerTest {
 
     @Test
     void testModelController_getModelById_shouldCallServiceOnce() {
-        when(modelService.getModelById(anyLong())).thenReturn(new Model(3, "testName3", null));
+        when(modelService.getModelById(anyLong())).thenReturn(new Model("testName3", null));
 
         modelController.getModelById(anyLong());
 
@@ -121,7 +118,7 @@ class ModelControllerTest {
 
     @Test
     void testModelController_createModel_shouldCallServiceOnce() {
-        Model model = new Model(3, "testName3", null);
+        Model model = new Model("testName3", null);
         modelController.saveModel(model);
 
         verify(modelService, times(1)).saveBrand(model);
@@ -143,7 +140,7 @@ class ModelControllerTest {
 
     @Test
     void testModelController_updateModel_shouldCallServiceOnce() {
-        Model model = new Model(3, "testName3", null);
+        Model model = new Model("testName3", null);
         long id = model.getId();
         modelController.updateModel(id, model);
 

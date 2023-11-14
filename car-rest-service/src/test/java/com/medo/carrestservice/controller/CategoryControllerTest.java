@@ -40,7 +40,7 @@ class CategoryControllerTest {
 
     @Test
     void testCategoryController_getAllCategory_shouldReturnValidResponceEntity() throws Exception {
-        List<Category> expected = List.of(new Category(1, "testName1"), new Category(2, "testName2"));
+        List<Category> expected = List.of(new Category("testName1"), new Category("testName2"));
         when(categoryService.getAllCategory()).thenReturn(expected);
 
         mockMvc.perform(get("/api/v1/categories"))
@@ -49,11 +49,9 @@ class CategoryControllerTest {
                 content().json("""
                         [
                             {
-                                "id":1,
                                 "categoryName":"testName1"
                             },
                             {
-                                "id":2,
                                 "categoryName":"testName2"
                             }
                         ]
@@ -72,7 +70,7 @@ class CategoryControllerTest {
 
     @Test
     void testCategoryController_getCategoryById_shouldReturnValidResponceEntity() throws Exception {
-        Category category = new Category(3, "testName3");
+        Category category = new Category("testName3");
         when(categoryService.getCategoryById(anyLong())).thenReturn(category);
 
         mockMvc.perform(get("/api/v1/categories/{id}", anyLong()))
@@ -81,7 +79,6 @@ class CategoryControllerTest {
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
                         {
-                            "id":3,
                             "categoryName":"testName3"
                         }
                          """));
@@ -98,7 +95,7 @@ class CategoryControllerTest {
 
     @Test
     void testCategoryController_getCategoryById_shouldCallServiceOnce() {
-        when(categoryService.getCategoryById(anyLong())).thenReturn(new Category(3, "testName3"));
+        when(categoryService.getCategoryById(anyLong())).thenReturn(new Category("testName3"));
 
         categoryController.getCategoryById(anyLong());
 
@@ -120,7 +117,7 @@ class CategoryControllerTest {
 
     @Test
     void testCategoryController_createCategory_shouldCallServiceOnce() {
-        Category category = new Category(3, "testName3");
+        Category category = new Category("testName3");
         categoryController.saveCategory(category);
 
         verify(categoryService, times(1)).saveCategory(category);
@@ -142,7 +139,7 @@ class CategoryControllerTest {
 
     @Test
     void testCategoryController_updateCategory_shouldCallServiceOnce() {
-        Category category = new Category(3, "testName3");
+        Category category = new Category("testName3");
         long id = category.getId();
         categoryController.updateCategory(id, category);
 

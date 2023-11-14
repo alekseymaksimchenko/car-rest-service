@@ -2,6 +2,8 @@ package com.medo.carrestservice.model;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.ToStringExclude;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +13,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity
 @Table(name = "cars", schema = "car_service")
 public class Car {
@@ -28,61 +38,18 @@ public class Car {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "model_id", referencedColumnName = "id")
+    @ToStringExclude
     private Model model;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @ToStringExclude
     private Category category;
 
-    public Car() {
-    }
-
-    public Car(long id, String serialNumber, int manufacturedYear, Model model, Category category) {
-        super();
-        this.id = id;
+    public Car(String serialNumber, int manufacturedYear, Model model, Category category) {
         this.serialNumber = serialNumber;
         this.manufacturedYear = manufacturedYear;
         this.model = model;
-        this.category = category;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public int getManufacturedYear() {
-        return manufacturedYear;
-    }
-
-    public void setManufacturedYear(int manufacturedYear) {
-        this.manufacturedYear = manufacturedYear;
-    }
-
-    public Model getModel() {
-        return model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -100,12 +67,6 @@ public class Car {
         Car other = (Car) obj;
         return Objects.equals(category, other.category) && id == other.id && manufacturedYear == other.manufacturedYear
                 && Objects.equals(model, other.model) && Objects.equals(serialNumber, other.serialNumber);
-    }
-
-    @Override
-    public String toString() {
-        return "Car [id=" + id + ", serialNumber=" + serialNumber + ", manufacturedYear=" + manufacturedYear
-                + ", model=" + model + ", category=" + category + "]";
     }
 
 }

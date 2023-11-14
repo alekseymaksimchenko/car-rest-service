@@ -8,7 +8,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity
 @Table(name = "brands", schema = "car_service")
 public class Brand {
@@ -20,32 +28,7 @@ public class Brand {
     @Column(name = "brand_name")
     private String brandName;
 
-    public Brand() {
-    }
-
-    public Brand(long id, String brandName) {
-        super();
-        this.id = id;
-        this.brandName = brandName;
-    }
-
     public Brand(String brandName) {
-        this.brandName = brandName;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public void setBrandName(String brandName) {
         this.brandName = brandName;
     }
 
@@ -62,11 +45,6 @@ public class Brand {
             return false;
         Brand other = (Brand) obj;
         return Objects.equals(brandName, other.brandName) && id == other.id;
-    }
-
-    @Override
-    public String toString() {
-        return "Brand [id=" + id + ", brandName=" + brandName + "]";
     }
 
 }

@@ -2,6 +2,8 @@ package com.medo.carrestservice.model;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.ToStringExclude;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +13,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity
 @Table(name = "models", schema = "car_service")
 public class Model {
@@ -25,39 +35,11 @@ public class Model {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "brand_id", referencedColumnName = "id")
+    @ToStringExclude
     private Brand brand;
 
-    public Model() {
-    }
-
-    public Model(long id, String modelName, Brand brand) {
-        super();
-        this.id = id;
+    public Model(String modelName, Brand brand) {
         this.modelName = modelName;
-        this.brand = brand;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getModelName() {
-        return modelName;
-    }
-
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
-    }
-
-    public Brand getBrand() {
-        return brand;
-    }
-
-    public void setBrand(Brand brand) {
         this.brand = brand;
     }
 
@@ -74,11 +56,6 @@ public class Model {
             return false;
         Model other = (Model) obj;
         return Objects.equals(brand, other.brand) && id == other.id && Objects.equals(modelName, other.modelName);
-    }
-
-    @Override
-    public String toString() {
-        return "Model [id=" + id + ", modelName=" + modelName + ", brand=" + brand + "]";
     }
 
 }
