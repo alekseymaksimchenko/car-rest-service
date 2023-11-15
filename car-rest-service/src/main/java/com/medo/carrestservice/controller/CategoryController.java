@@ -16,17 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.medo.carrestservice.model.Category;
 import com.medo.carrestservice.service.CategoryService;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
 
     private static final String DELETE_MASSAGE = "Category was successfuly deleted!";
     private final CategoryService categoryService;
-
-    public CategoryController(CategoryService categoryService) {
-        super();
-        this.categoryService = categoryService;
-    }
 
     @PostMapping()
     public ResponseEntity<Category> saveCategory(@RequestBody Category category) {

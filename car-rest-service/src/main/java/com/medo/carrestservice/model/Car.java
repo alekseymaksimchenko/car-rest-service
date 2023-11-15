@@ -1,7 +1,5 @@
 package com.medo.carrestservice.model;
 
-import java.util.Objects;
-
 import org.apache.commons.lang3.builder.ToStringExclude;
 
 import jakarta.persistence.CascadeType;
@@ -13,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +21,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "cars", schema = "car_service")
 public class Car {
@@ -30,7 +30,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "car_serial_number")
+    @Column(name = "serial_number")
     private String serialNumber;
 
     @Column(name = "manufactured_year")
@@ -51,22 +51,6 @@ public class Car {
         this.manufacturedYear = manufacturedYear;
         this.model = model;
         this.category = category;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(category, id, manufacturedYear, model, serialNumber);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if ((obj == null) || (getClass() != obj.getClass()))
-            return false;
-        Car other = (Car) obj;
-        return Objects.equals(category, other.category) && id == other.id && manufacturedYear == other.manufacturedYear
-                && Objects.equals(model, other.model) && Objects.equals(serialNumber, other.serialNumber);
     }
 
 }

@@ -9,19 +9,16 @@ import com.medo.carrestservice.model.Category;
 import com.medo.carrestservice.repository.CategoryRepository;
 import com.medo.carrestservice.service.CategoryService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@AllArgsConstructor
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private static final String NOT_FOUND = "Entity under provided id doesn`t exist";
     private final CategoryRepository categoryRepository;
-
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        super();
-        this.categoryRepository = categoryRepository;
-    }
 
     @Override
     public Category saveCategory(Category category) {

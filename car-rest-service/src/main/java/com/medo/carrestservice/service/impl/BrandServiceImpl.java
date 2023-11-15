@@ -9,19 +9,16 @@ import com.medo.carrestservice.model.Brand;
 import com.medo.carrestservice.repository.BrandRepository;
 import com.medo.carrestservice.service.BrandService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@AllArgsConstructor
 @Service
 public class BrandServiceImpl implements BrandService {
 
     private static final String NOT_FOUND = "Entity under provided id doesn`t exist";
     private final BrandRepository brandRepository;
-
-    public BrandServiceImpl(BrandRepository brandRepository) {
-        super();
-        this.brandRepository = brandRepository;
-    }
 
     @Override
     public Brand saveBrand(Brand brand) {
@@ -37,7 +34,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Brand getBrandById(long brandId) throws ServiceException{
+    public Brand getBrandById(long brandId) throws ServiceException {
         Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ServiceException(NOT_FOUND));
         log.debug("Brand under id=({}) was returned", brandId);
         return brand;

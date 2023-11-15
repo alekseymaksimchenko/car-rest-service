@@ -10,20 +10,17 @@ import com.medo.carrestservice.model.Car;
 import com.medo.carrestservice.repository.CarRepository;
 import com.medo.carrestservice.service.CarService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@AllArgsConstructor
 @Service
 public class CarServiceImpl implements CarService {
 
     private static final String NOT_FOUND = "Entity under provided id doesn`t exist";
     private static final String LIST_SIZE = "{} Cars in the list";
     private final CarRepository carRepository;
-
-    public CarServiceImpl(CarRepository carRepository) {
-        super();
-        this.carRepository = carRepository;
-    }
 
     @Override
     public Car saveCar(Car car) {

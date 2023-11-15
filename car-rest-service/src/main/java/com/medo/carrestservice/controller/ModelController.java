@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.medo.carrestservice.model.Model;
 import com.medo.carrestservice.service.ModelService;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/models")
 public class ModelController {
@@ -23,18 +26,12 @@ public class ModelController {
     private static final String DELETE_MASSAGE = "Model was successfuly deleted!";
     private final ModelService modelService;
 
-    public ModelController(ModelService modelService) {
-        super();
-        this.modelService = modelService;
-    }
-
     @PostMapping()
     public ResponseEntity<Model> saveModel(@RequestBody Model model) {
         return new ResponseEntity<>(modelService.saveBrand(model), HttpStatus.CREATED);
     }
 
     @GetMapping()
-
     public ResponseEntity<List<Model>> getAllModels() {
         return new ResponseEntity<>(modelService.getAllModels(), HttpStatus.OK);
     }

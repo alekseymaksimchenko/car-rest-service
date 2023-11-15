@@ -16,17 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.medo.carrestservice.model.Brand;
 import com.medo.carrestservice.service.BrandService;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/brands")
 public class BrandController {
 
     private static final String DELETE_MASSAGE = "Brand was successfuly deleted!";
     private final BrandService brandService;
-
-    public BrandController(BrandService brandService) {
-        super();
-        this.brandService = brandService;
-    }
 
     @PostMapping()
     public ResponseEntity<Brand> saveBrand(@RequestBody Brand brand) {

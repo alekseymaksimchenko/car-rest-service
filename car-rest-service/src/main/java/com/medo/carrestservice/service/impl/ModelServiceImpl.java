@@ -9,19 +9,16 @@ import com.medo.carrestservice.model.Model;
 import com.medo.carrestservice.repository.ModelRepository;
 import com.medo.carrestservice.service.ModelService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@AllArgsConstructor
 @Service
 public class ModelServiceImpl implements ModelService {
 
     private static final String NOT_FOUND = "Entity under provided id doesn`t exist";
     private final ModelRepository modelRepository;
-
-    public ModelServiceImpl(ModelRepository modelRepository) {
-        super();
-        this.modelRepository = modelRepository;
-    }
 
     @Override
     public Model saveBrand(Model model) {
@@ -60,7 +57,6 @@ public class ModelServiceImpl implements ModelService {
         getModelById(modelId);
         modelRepository.deleteById(modelId);
         log.debug("Model under id=({}) was deleted", modelId);
-
     }
 
 }

@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.medo.carrestservice.model.Car;
 import com.medo.carrestservice.service.CarService;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/cars")
 public class CarController {
@@ -27,11 +30,6 @@ public class CarController {
     private static final Pageable PAGEABLE = PageRequest.ofSize(100);
 
     private final CarService carService;
-
-    public CarController(CarService carService) {
-        super();
-        this.carService = carService;
-    }
 
     @PostMapping()
     public ResponseEntity<Car> saveCar(@RequestBody Car car) {
@@ -49,12 +47,17 @@ public class CarController {
     }
 
     @GetMapping("search/categorys/models")
-    public ResponseEntity<List<Car>> getAllByCategoryAndModelNames(@RequestParam("categoryName") String categoryName, @RequestParam("modelName") String modelName) {
+    public ResponseEntity<List<Car>> getAllByCategoryAndModelNames(@RequestParam("categoryName") String categoryName, 
+                                                                   @RequestParam("modelName") String modelName) {
+        
         return new ResponseEntity<>(carService.getAllByCategoryAndModelNames(categoryName, modelName, PAGEABLE), HttpStatus.OK);
     }
 
     @GetMapping("search/models/years")
-    public ResponseEntity<List<Car>> getAllByModelNameAndMinMaxYear(@RequestParam("modelName") String modelName, @RequestParam("minYear") int minYear, @RequestParam("maxYear") int maxYear) {
+    public ResponseEntity<List<Car>> getAllByModelNameAndMinMaxYear(@RequestParam("modelName") String modelName, 
+                                                                    @RequestParam("minYear") int minYear, 
+                                                                    @RequestParam("maxYear") int maxYear) {
+        
         return new ResponseEntity<>(carService.getAllByModelNameAndMinMaxYear(modelName, minYear, maxYear, PAGEABLE), HttpStatus.OK);
     }
 

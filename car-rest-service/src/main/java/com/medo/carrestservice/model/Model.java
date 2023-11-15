@@ -1,7 +1,5 @@
 package com.medo.carrestservice.model;
 
-import java.util.Objects;
-
 import org.apache.commons.lang3.builder.ToStringExclude;
 
 import jakarta.persistence.CascadeType;
@@ -13,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +21,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "models", schema = "car_service")
 public class Model {
@@ -30,7 +30,7 @@ public class Model {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "model_name")
+    @Column(name = "name")
     private String modelName;
 
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -41,21 +41,6 @@ public class Model {
     public Model(String modelName, Brand brand) {
         this.modelName = modelName;
         this.brand = brand;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(brand, id, modelName);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if ((obj == null) || (getClass() != obj.getClass()))
-            return false;
-        Model other = (Model) obj;
-        return Objects.equals(brand, other.brand) && id == other.id && Objects.equals(modelName, other.modelName);
     }
 
 }
