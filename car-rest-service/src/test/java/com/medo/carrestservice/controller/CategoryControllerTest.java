@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -43,7 +44,8 @@ class CategoryControllerTest {
         List<Category> expected = List.of(new Category("testName1"), new Category("testName2"));
         when(categoryService.getAllCategory()).thenReturn(expected);
 
-        mockMvc.perform(get("/api/v1/categories"))
+        mockMvc.perform(get("/car-rest-service/api/v1/private/categories")
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
@@ -73,7 +75,8 @@ class CategoryControllerTest {
         Category category = new Category("testName3");
         when(categoryService.getCategoryById(anyLong())).thenReturn(category);
 
-        mockMvc.perform(get("/api/v1/categories/{id}", anyLong()))
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/categories/{id}", anyLong())
+                .with(jwt()))
                     .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
@@ -89,7 +92,8 @@ class CategoryControllerTest {
         long id = 1L;
         when(categoryService.getCategoryById(id)).thenThrow(new ServiceException(anyString()));
 
-        mockMvc.perform(get("/api/v1/categories/{id}", id))
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/categories/{id}", id)
+                    .with(jwt()))
                     .andExpectAll(status().isNotFound());
     }
 
@@ -105,7 +109,8 @@ class CategoryControllerTest {
 
     @Test
     void testCategoryController_createCategory_shouldReturnValidResponceEntity() throws Exception {
-        mockMvc.perform(post("/api/v1/categories")
+        mockMvc.perform(post("/car-rest-service/api/v1/private-scoped/categories")
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                 {
@@ -127,7 +132,8 @@ class CategoryControllerTest {
     @Test
     void testCategoryController_updateCategory_shouldReturnValidResponceEntity() throws Exception {
         long id = 1L;
-        mockMvc.perform(put("/api/v1/categories/{id}", id)
+        mockMvc.perform(put("/car-rest-service/api/v1/private-scoped/categories/{id}", id)
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                 {
@@ -149,7 +155,8 @@ class CategoryControllerTest {
 
     @Test
     void testCategoryController_deleteCategory_shouldReturnValidResponceEntity() throws Exception {
-        mockMvc.perform(delete("/api/v1/categories/{id}", anyLong()))
+        mockMvc.perform(delete("/car-rest-service/api/v1/private-scoped/categories/{id}", anyLong())
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.valueOf("text/plain;charset=UTF-8")),
                 content().string("Category was successfuly deleted!"));

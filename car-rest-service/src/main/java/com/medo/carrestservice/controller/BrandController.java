@@ -20,33 +20,33 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/brands")
+@RequestMapping("car-rest-service/api/v1")
 public class BrandController {
 
     private static final String DELETE_MASSAGE = "Brand was successfuly deleted!";
     private final BrandService brandService;
 
-    @PostMapping()
+    @PostMapping("/private-scoped/brands")
     public ResponseEntity<Brand> saveBrand(@RequestBody Brand brand) {
         return new ResponseEntity<>(brandService.saveBrand(brand), HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping("/private/brands")
     public ResponseEntity<List<Brand>> getAllBrands() {
         return new ResponseEntity<>(brandService.getAllBrands(), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/private-scoped/brands/{id}")
     public ResponseEntity<Brand> getBrandById(@PathVariable("id") long brandId) {
         return new ResponseEntity<>(brandService.getBrandById(brandId), HttpStatus.OK);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/private-scoped/brands/{id}")
     public ResponseEntity<Brand> updateBrand(@PathVariable("id") long brandId, @RequestBody Brand brand) {
         return new ResponseEntity<>(brandService.updateBrand(brand, brandId), HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/private-scoped/brands/{id}")
     public ResponseEntity<String> deleteBrand(@PathVariable("id") long brandId) {
         brandService.deleteBrand(brandId);
         return new ResponseEntity<>(DELETE_MASSAGE, HttpStatus.OK);

@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -46,7 +47,8 @@ class CarControllerTest {
         List<Car> expected = List.of(new Car("testNumb1", 2024, null, null), new Car("testNumb2", 2024, null, null));
         when(carService.getAllCars()).thenReturn(expected);
 
-        mockMvc.perform(get("/api/v1/cars"))
+        mockMvc.perform(get("/car-rest-service/api/v1/private/cars")
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
@@ -78,7 +80,8 @@ class CarControllerTest {
         List<Car> expected = List.of(new Car("testNumb1", 2024, null, null));
         when(carService.getAllCarsAccordingToBrand(anyString(), any(Pageable.class))).thenReturn(expected);
 
-        mockMvc.perform(get("/api/v1/cars/search/brands?brandName=brandName"))
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/cars/search/brands?brandName=brandName")
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
@@ -106,7 +109,8 @@ class CarControllerTest {
         List<Car> expected = List.of(new Car("testNumb1", 2024, null, null));
         when(carService.getAllByCategoryAndModelNames(anyString(), anyString(), any(Pageable.class))).thenReturn(expected);
 
-        mockMvc.perform(get("/api/v1/cars/search/categorys/models?categoryName=categoryName&modelName=modelName"))
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/cars/search/categorys/models?categoryName=categoryName&modelName=modelName")
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
@@ -134,7 +138,8 @@ class CarControllerTest {
         List<Car> expected = List.of(new Car("testNumb1", 2024, null, null));
         when(carService.getAllByModelNameAndMinMaxYear(anyString(), anyInt(), anyInt(), any(Pageable.class))).thenReturn(expected);
 
-        mockMvc.perform(get("/api/v1/cars/search/models/years?modelName=modelName&minYear=1900&maxYear=2024"))
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/cars/search/models/years?modelName=modelName&minYear=1900&maxYear=2024")
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
@@ -162,7 +167,8 @@ class CarControllerTest {
         Car car = new Car("testNumb3", 2024, null, null);
         when(carService.getCarById(anyLong())).thenReturn(car);
 
-        mockMvc.perform(get("/api/v1/cars/{id}", anyLong()))
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/cars/{id}", anyLong())
+                    .with(jwt()))
                     .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
@@ -179,7 +185,8 @@ class CarControllerTest {
         long id = 1L;
         when(carService.getCarById(id)).thenThrow(new ServiceException(anyString()));
 
-        mockMvc.perform(get("/api/v1/cars/{id}", id))
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/cars/{id}", id)
+                    .with(jwt()))
                     .andExpectAll(
                 status().isNotFound());
     }
@@ -197,7 +204,8 @@ class CarControllerTest {
 
     @Test
     void testCarController_createCar_shouldReturnValidResponceEntity() throws Exception {
-        mockMvc.perform(post("/api/v1/cars")
+        mockMvc.perform(post("/car-rest-service/api/v1/private-scoped/cars")
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                             {
@@ -221,7 +229,8 @@ class CarControllerTest {
     @Test
     void testCarController_updateCar_shouldReturnValidResponceEntity() throws Exception {
         long id = 1L;
-        mockMvc.perform(put("/api/v1/cars/{id}", id)
+        mockMvc.perform(put("/car-rest-service/api/v1/private-scoped/cars/{id}", id)
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                             {
@@ -245,7 +254,8 @@ class CarControllerTest {
 
     @Test
     void testCarController_deleteCar_shouldReturnValidResponceEntity() throws Exception {
-        mockMvc.perform(delete("/api/v1/cars/{id}", anyLong()))
+        mockMvc.perform(delete("/car-rest-service/api/v1/private-scoped/cars/{id}", anyLong())
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.valueOf("text/plain;charset=UTF-8")),
                 content().string("Car was successfuly deleted!"));

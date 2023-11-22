@@ -20,33 +20,33 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/categories")
+@RequestMapping("car-rest-service/api/v1")
 public class CategoryController {
 
     private static final String DELETE_MASSAGE = "Category was successfuly deleted!";
     private final CategoryService categoryService;
 
-    @PostMapping()
+    @PostMapping("/private-scoped/categories")
     public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
         return new ResponseEntity<>(categoryService.saveCategory(category), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/private/categories")
     public ResponseEntity<List<Category>> getAllCategory() {
         return new ResponseEntity<>(categoryService.getAllCategory(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/private-scoped/categories/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable("id") long categoryId) {
         return new ResponseEntity<>(categoryService.getCategoryById(categoryId), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/private-scoped/categories/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable("id") long categoryId, Category category) {
         return new ResponseEntity<>(categoryService.updateCategory(category, categoryId), HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/private-scoped/categories/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") long categoryId) {
         categoryService.deleteCategory(categoryId);
         return new ResponseEntity<>(DELETE_MASSAGE, HttpStatus.OK);

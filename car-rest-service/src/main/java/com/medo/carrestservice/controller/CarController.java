@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/cars")
+@RequestMapping("car-rest-service/api/v1")
 public class CarController {
 
     private static final String DELETE_MASSAGE = "Car was successfuly deleted!";
@@ -31,47 +31,47 @@ public class CarController {
 
     private final CarService carService;
 
-    @PostMapping()
+    @PostMapping("/private-scoped/cars")
     public ResponseEntity<Car> saveCar(@RequestBody Car car) {
         return new ResponseEntity<>(carService.saveCar(car), HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping("/private/cars")
     public ResponseEntity<List<Car>> getAllCars() {
         return new ResponseEntity<>(carService.getAllCars(), HttpStatus.OK);
     }
 
-    @GetMapping("search/brands")
+    @GetMapping("/private-scoped/cars/search/brands")
     public ResponseEntity<List<Car>> getAllCarsAccordingToBrand(@RequestParam("brandName") String brandName) {
         return new ResponseEntity<>(carService.getAllCarsAccordingToBrand(brandName, PAGEABLE), HttpStatus.OK);
     }
 
-    @GetMapping("search/categorys/models")
-    public ResponseEntity<List<Car>> getAllByCategoryAndModelNames(@RequestParam("categoryName") String categoryName, 
+    @GetMapping("/private-scoped/cars/search/categorys/models")
+    public ResponseEntity<List<Car>> getAllByCategoryAndModelNames(@RequestParam("categoryName") String categoryName,
                                                                    @RequestParam("modelName") String modelName) {
-        
+
         return new ResponseEntity<>(carService.getAllByCategoryAndModelNames(categoryName, modelName, PAGEABLE), HttpStatus.OK);
     }
 
-    @GetMapping("search/models/years")
-    public ResponseEntity<List<Car>> getAllByModelNameAndMinMaxYear(@RequestParam("modelName") String modelName, 
-                                                                    @RequestParam("minYear") int minYear, 
+    @GetMapping("/private-scoped/cars/search/models/years")
+    public ResponseEntity<List<Car>> getAllByModelNameAndMinMaxYear(@RequestParam("modelName") String modelName,
+                                                                    @RequestParam("minYear") int minYear,
                                                                     @RequestParam("maxYear") int maxYear) {
-        
+
         return new ResponseEntity<>(carService.getAllByModelNameAndMinMaxYear(modelName, minYear, maxYear, PAGEABLE), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/private-scoped/cars/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable("id") long carId) {
         return new ResponseEntity<>(carService.getCarById(carId), HttpStatus.OK);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/private-scoped/cars/{id}")
     public ResponseEntity<Car> updateCar(@PathVariable("id") long carId, Car car) {
         return new ResponseEntity<>(carService.upadateCar(car, carId), HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/private-scoped/cars/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable("id") long carId) {
         carService.deleteCar(carId);
         return new ResponseEntity<>(DELETE_MASSAGE, HttpStatus.OK);

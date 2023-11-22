@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -43,7 +44,8 @@ class BrandControllerTest {
         List<Brand> expected = List.of(new Brand("testName1"), new Brand("testName2"));
         when(brandService.getAllBrands()).thenReturn(expected);
 
-        mockMvc.perform(get("/api/v1/brands"))
+        mockMvc.perform(get("/car-rest-service/api/v1/private/brands")
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
@@ -73,8 +75,9 @@ class BrandControllerTest {
         Brand brand = new Brand("testName3");
         when(brandService.getBrandById(anyLong())).thenReturn(brand);
 
-        mockMvc.perform(get("/api/v1/brands/{id}", anyLong()))
-                    .andExpectAll(
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/brands/{id}", anyLong())
+                .with(jwt()))
+                .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
@@ -89,8 +92,9 @@ class BrandControllerTest {
         long id = 1L;
         when(brandService.getBrandById(id)).thenThrow(new ServiceException(anyString()));
 
-        mockMvc.perform(get("/api/v1/brands/{id}", id))
-                    .andExpectAll(
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/brands/{id}", id)
+                 .with(jwt()))
+                 .andExpectAll(
                 status().isNotFound());
     }
 
@@ -106,7 +110,8 @@ class BrandControllerTest {
 
     @Test
     void testBrandController_createBrand_shouldReturnValidResponceEntity() throws Exception {
-        mockMvc.perform(post("/api/v1/brands")
+        mockMvc.perform(post("/car-rest-service/api/v1/private-scoped/brands")
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                 {
@@ -128,7 +133,8 @@ class BrandControllerTest {
     @Test
     void testBrandController_updateBrand_shouldReturnValidResponceEntity() throws Exception {
         long id = 1L;
-        mockMvc.perform(put("/api/v1/brands/{id}", id)
+        mockMvc.perform(put("/car-rest-service/api/v1/private-scoped/brands/{id}", id)
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                 {
@@ -150,7 +156,8 @@ class BrandControllerTest {
 
     @Test
     void testBrandController_deleteBrand_shouldReturnValidResponceEntity() throws Exception {
-        mockMvc.perform(delete("/api/v1/brands/{id}", anyLong()))
+        mockMvc.perform(delete("/car-rest-service/api/v1/private-scoped/brands/{id}", anyLong())
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.valueOf("text/plain;charset=UTF-8")),
                 content().string("Brand was successfuly deleted!"));

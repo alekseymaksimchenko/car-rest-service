@@ -20,33 +20,33 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/models")
+@RequestMapping("car-rest-service/api/v1")
 public class ModelController {
 
     private static final String DELETE_MASSAGE = "Model was successfuly deleted!";
     private final ModelService modelService;
 
-    @PostMapping()
+    @PostMapping("/private-scoped/models")
     public ResponseEntity<Model> saveModel(@RequestBody Model model) {
         return new ResponseEntity<>(modelService.saveBrand(model), HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping("/private/models")
     public ResponseEntity<List<Model>> getAllModels() {
         return new ResponseEntity<>(modelService.getAllModels(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/private-scoped/models/{id}")
     public ResponseEntity<Model> getModelById(@PathVariable("id") long modelId) {
         return new ResponseEntity<>(modelService.getModelById(modelId), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/private-scoped/models/{id}")
     public ResponseEntity<Model> updateModel(@PathVariable("id") long modelId, @RequestBody Model model) {
         return new ResponseEntity<>(modelService.updateModel(model, modelId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/private-scoped/models/{id}")
     public ResponseEntity<String> deleteModel(@PathVariable("id") long modelId) {
         modelService.deleteModel(modelId);
         return new ResponseEntity<>(DELETE_MASSAGE, HttpStatus.OK);

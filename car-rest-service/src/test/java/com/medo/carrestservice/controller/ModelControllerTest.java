@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -43,7 +44,8 @@ class ModelControllerTest {
         List<Model> expected = List.of(new Model("testName1", null), new Model("testName2", null));
         when(modelService.getAllModels()).thenReturn(expected);
 
-        mockMvc.perform(get("/api/v1/models"))
+        mockMvc.perform(get("/car-rest-service/api/v1/private/models")
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
                 content().json("""
@@ -73,7 +75,8 @@ class ModelControllerTest {
         Model model = new Model("testName3", null);
         when(modelService.getModelById(anyLong())).thenReturn(model);
 
-        mockMvc.perform(get("/api/v1/models/{id}", anyLong()))
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/models/{id}", anyLong())
+                    .with(jwt()))
                     .andExpectAll(
                 status().isOk(),
                 content().contentType(MediaType.APPLICATION_JSON),
@@ -89,7 +92,8 @@ class ModelControllerTest {
         long id = 1L;
         when(modelService.getModelById(id)).thenThrow(new ServiceException(anyString()));
 
-        mockMvc.perform(get("/api/v1/models/{id}", id))
+        mockMvc.perform(get("/car-rest-service/api/v1/private-scoped/models/{id}", id)
+                    .with(jwt()))
                     .andExpectAll(
                 status().isNotFound());
     }
@@ -106,7 +110,8 @@ class ModelControllerTest {
 
     @Test
     void testModelController_createModel_shouldReturnValidResponceEntity() throws Exception {
-        mockMvc.perform(post("/api/v1/models")
+        mockMvc.perform(post("/car-rest-service/api/v1/private-scoped/models")
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                 {
@@ -128,7 +133,8 @@ class ModelControllerTest {
     @Test
     void testModelController_updateModel_shouldReturnValidResponceEntity() throws Exception {
         long id = 1L;
-        mockMvc.perform(put("/api/v1/models/{id}", id)
+        mockMvc.perform(put("/car-rest-service/api/v1/private-scoped/models/{id}", id)
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                 {
@@ -150,7 +156,8 @@ class ModelControllerTest {
 
     @Test
     void testModelController_deleteModel_shouldReturnValidResponceEntity() throws Exception {
-        mockMvc.perform(delete("/api/v1/models/{id}", anyLong()))
+        mockMvc.perform(delete("/car-rest-service/api/v1/private-scoped/models/{id}", anyLong())
+                .with(jwt()))
                 .andExpectAll(status().isOk(),
                 content().contentType(MediaType.valueOf("text/plain;charset=UTF-8")),
                 content().string("Model was successfuly deleted!"));
