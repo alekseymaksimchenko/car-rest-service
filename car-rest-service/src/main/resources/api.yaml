@@ -1,0 +1,777 @@
+openapi: 3.0.3
+info:
+  title: Car-rest-service - OpenAPI 3.0
+  version: 1.0.11
+servers:
+  - url: http://localhost:7000/car-rest-service/api/v1
+paths:
+  /private-scoped/brands:
+    post:
+      tags:
+        - brands
+      summary: Create brand
+      description: Save`s brand to Db
+      operationId: saveBrand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Brand'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Brand'
+        '403':
+          description: Unauthorised request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private/brands:
+    get:
+      tags:
+        - brands
+      summary: Get all brands
+      description: Return the list of all existing brands
+      operationId: getAllBrands
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Brand'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private-scoped/brands/{id}:
+    get:
+      tags:
+        - brands
+      summary: Get brand by Id
+      description: Return single brand
+      operationId: getBrandById
+      parameters:
+        - name: id
+          in: path
+          description: ID of brand to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Brand not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - brands
+      summary: Update brand
+      description: Update brand by id
+      operationId: updateBrand
+      parameters:
+        - name: id
+          in: path
+          description: ID of brand to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Brand'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Brand not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - brands
+      summary: Delete brand by Id
+      description: Delete brand from Db
+      operationId: deleteBrand
+      parameters:
+        - name: id
+          in: path
+          description: ID of brand to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Brand not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private-scoped/models:
+    post:
+      tags:
+        - models
+      summary: Create model
+      description: Save`s model to Db
+      operationId: saveModel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Model'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private/models:
+    get:
+      tags:
+        - models
+      summary: Get all models
+      description: Return the list of all existing model
+      operationId: getAllModels
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Model'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private-scoped/models/{id}:
+    get:
+      tags:
+        - models
+      summary: Get model by Id
+      description: Return single model
+      operationId: getModelById
+      parameters:
+        - name: id
+          in: path
+          description: ID of model to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Model not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - models
+      summary: Update model
+      description: Update model by id
+      operationId: updateModel
+      parameters:
+        - name: id
+          in: path
+          description: ID of model to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Model not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - models
+      summary: Delete model by Id
+      description: Delete model from Db
+      operationId: deleteModel
+      parameters:
+        - name: id
+          in: path
+          description: ID of model to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Model not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private-scoped/cars:
+    post:
+      tags:
+        - cars
+      summary: Create car
+      description: Save`s car to Db
+      operationId: saveCar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private/cars:
+    get:
+      tags:
+        - cars
+      summary: Get all cars
+      description: Return the list of all existing cars
+      operationId: getAllCars
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private-scoped/cars/{id}:
+    get:
+      tags:
+        - cars
+      summary: Get car by Id
+      description: Return single car
+      operationId: getCarById
+      parameters:
+        - name: id
+          in: path
+          description: ID of car to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Car not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - cars
+      summary: Update car
+      description: Update car by id
+      operationId: updateCar
+      parameters:
+        - name: id
+          in: path
+          description: ID of car to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Model not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - cars
+      summary: Delete car by Id
+      description: Delete car from Db
+      operationId: deleteCar
+      parameters:
+        - name: id
+          in: path
+          description: ID of car to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Car not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'   
+  /private-scoped/categories:
+    post:
+      tags:
+        - categories
+      summary: Create category
+      description: Save`s category to Db
+      operationId: saveCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private/categories:
+    get:
+      tags:
+        - categories
+      summary: Get all category
+      description: Return the list of all existing categories
+      operationId: getAllCategory
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /private-scoped/categories/{id}:
+    get:
+      tags:
+        - categories
+      summary: Get category by Id
+      description: Return single category
+      operationId: getCategoryById
+      parameters:
+        - name: id
+          in: path
+          description: ID of category to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Car not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - categories
+      summary: Update category by id
+      description: Update category by id
+      operationId: updateCategory
+      parameters:
+        - name: id
+          in: path
+          description: ID of category to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Model not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - categories
+      summary: Delete category by Id
+      description: Delete category from Db
+      operationId: deleteCategory
+      parameters:
+        - name: id
+          in: path
+          description: ID of category to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Car not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
+components:
+  schemas:
+    Brand:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        brandName:
+          type: string
+          example: BMW
+    Car:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        serialNumber:
+          type: string
+          example: qwer12ty
+        manufacturedYear:
+          type: integer
+          example: 1989
+        Model:
+          $ref: '#/components/schemas/Model'
+        Category:
+          $ref: '#/components/schemas/Category'
+    Model:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        modelName:
+          type: string
+          example: X6
+        brand:
+          $ref: '#/components/schemas/Brand'
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        categoryName:
+          type: string
+          example: Sedan
+    Error:
+      type: object
+      required: 
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      
